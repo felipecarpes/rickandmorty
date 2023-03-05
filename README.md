@@ -1,14 +1,15 @@
 <h1>Ricky and Morty </h1> 
 
+> Project status: :heavy_check_mark: (Done)
+
 <p align="center">
   <img src="/public/rickandmortyproject.png"/>
 </p>
 
-> Project status: :heavy_check_mark: (Done)
 
-### Access the deployed project <a href="https://rickandmorty-murex.vercel.app/" target="_blank" rel="noopener">Here</a>
+## Access the deployed project <a href="https://rickandmorty-murex.vercel.app/" target="_blank" rel="noopener">Here</a>
 
-## How to run application :arrow_forward:
+### How to run application :arrow_forward:
 
 On your terminal, clone it project
 
