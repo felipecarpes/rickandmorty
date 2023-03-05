@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
+import { useRouter } from "vue-router"
 const props = defineProps<{
   character: {
     [x: string]: any;
@@ -8,9 +9,20 @@ const props = defineProps<{
     required: true;
   }
 }>();
+
+const router = useRouter()
+
+const routerToCharacterPage = () => {
+  router.push({
+    name: 'Character',
+    params: {
+      id: props.character.id
+    }
+  })
+}
 </script>
 <template>
-  <div class="card">
+  <div class="card" @click="routerToCharacterPage()">
     <img :src="character?.image" alt="character" />
     <h3>{{ character.name }}</h3>
   </div>
