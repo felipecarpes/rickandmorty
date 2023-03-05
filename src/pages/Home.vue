@@ -63,17 +63,19 @@ import Pagination from '../components/Pagination.vue'
     <h1>Characters</h1>
     <input placeholder="Search character" v-model="search.value"/>
   </div>
-  <Pagination :prev="prev + 1" :next="next" :pages="pages" :disableButton="disableButton" @next-page="nextPage" @previous-page="previousPage"/>
-  <div class="home">
-    <div v-if="loadingCharacters" class="loading">
-      <h1>Loading...</h1>
-    </div>
-    <div v-if="errorCharacters" class="error">
-      <h1>Error</h1>
-    </div>
-    <Character v-for="character in characters" :character="character" :key="character"/>
+  <div v-if="loadingCharacters" class="loading">
+    <h1>Loading...</h1>
   </div>
-  <Pagination :prev="prev + 1" :next="next" :pages="pages" :disableButton="disableButton" @next-page="nextPage" @previous-page="previousPage"/>
+  <div v-else-if="errorCharacters" class="error">
+    <h1>Error</h1>
+  </div>
+  <template v-else>
+    <Pagination :prev="prev + 1" :next="next" :pages="pages" :disableButton="disableButton" @next-page="nextPage" @previous-page="previousPage"/>
+    <div class="home">
+      <Character v-for="character in characters" :character="character" :key="character"/>
+    </div>
+    <Pagination :prev="prev + 1" :next="next" :pages="pages" :disableButton="disableButton" @next-page="nextPage" @previous-page="previousPage"/>
+  </template>
 </template>
 <style scoped>
   .page-header {
