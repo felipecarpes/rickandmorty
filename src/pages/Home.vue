@@ -3,6 +3,7 @@ import { reactive, computed, watch } from 'vue'
 import { useQuery } from "@vue/apollo-composable"
 import { CHARACTERS_QUERY } from '../graphql/query'
 import Character from '../components/CharacterCard.vue'
+import Pagination from '../components/Pagination.vue'
 
   const search = reactive({
     value: ''
@@ -18,11 +19,12 @@ import Character from '../components/CharacterCard.vue'
   const characters = computed(() => result.value?.characters?.results)
   const next = computed(() => result.value?.characters?.info?.next)
   const prev = computed(() => result.value?.characters?.info?.prev)
+  const pages = computed(() => result.value?.characters?.info?.pages)
   const loadingCharacters = computed(() => loading.value)
   const errorCharacters = computed(() => error.value)
 
 
-  const disableButton = computed(() => {
+  const disableButton = computed((): Boolean => {
     return prev.value === null
   })
 
@@ -61,6 +63,7 @@ import Character from '../components/CharacterCard.vue'
     <h1>Characters</h1>
     <input placeholder="Search character" v-model="search.value"/>
   </div>
+  <Pagination :prev="prev + 1" :next="next" :pages="pages" :disableButton="disableButton" @next-page="nextPage" @previous-page="previousPage"/>
   <div class="home">
     <div v-if="loadingCharacters" class="loading">
       <h1>Loading...</h1>
@@ -70,19 +73,7 @@ import Character from '../components/CharacterCard.vue'
     </div>
     <Character v-for="character in characters" :character="character" :key="character"/>
   </div>
-  <div class="page-actions">
-    <span @click="previousPage()" class="page-button" :class="{ 'page-button-disabled': disableButton }">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M10.854 1.146a.5.5 0 0 1 0 .708L6.707 6H13.5a.5.5 0 0 1 0 1H6.707l4.147 4.146a.5.5 0 1 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z"/>
-      </svg>
-    </span>
-    <span>página {{ prev + 1 || "..." }}</span>
-    <span @click="nextPage()" class="page-button">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M5.146 1.146a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 7.5H2.5a.5.5 0 0 1 0-1h6.793L5.146 1.146z"/>
-      </svg>
-    </span>
-  </div>
+  <Pagination :prev="prev + 1" :next="next" :pages="pages" :disableButton="disableButton" @next-page="nextPage" @previous-page="previousPage"/>
 </template>
 <style scoped>
   .page-header {
@@ -128,40 +119,4 @@ import Character from '../components/CharacterCard.vue'
     width: 100%;
     height: 100%;
   }
-
-  .page-actions {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 100%;
-    margin-top: 30px;
-  }
-
-  .page-button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .page-button svg {
-    width: 30px;
-    height: 30px;
-    fill: #999;
-  }
-
-  .page-button svg:hover {
-    cursor: pointer;
-    fill: #3498DB
-  }
-
-  .page-button-disabled {
-    color: #999;
-    cursor: not-allowed;
-  }
-
-  .page-button-disabled svg:hover {
-    cursor: not-allowed;
-    fill: #999;
-  }
-
 </style>

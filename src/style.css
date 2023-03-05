@@ -70,6 +70,24 @@ button:focus-visible {
   text-align: center;
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #58D68D;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3498DB;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #F7DC6F;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     color: #213547;
