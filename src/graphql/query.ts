@@ -29,3 +29,23 @@ export const CHARACTERS_QUERY = gql`
     }
   }
 `
+
+export const CHARACTER_QUERY = gql`
+  query($id: ID!) {
+    character(id: $id) {
+      name
+      image
+      status
+      species
+      type
+      gender
+      origin {
+        dimension
+      }
+      episode {
+        name
+        episode
+      }
+    }
+  }
+`
