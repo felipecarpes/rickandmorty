@@ -38,7 +38,7 @@ To run the project locally,
 yarn dev
 ```
 
-Now just acess the project in browser through the URL reported in the terminal:
+Now just acess the project in browser through the URL reported in the terminal 😊
 
 ### API used to consume content:
 
