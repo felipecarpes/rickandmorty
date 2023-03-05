@@ -70,8 +70,19 @@ import Character from '../components/CharacterCard.vue'
     </div>
     <Character v-for="character in characters" :character="character" :key="character"/>
   </div>
-  <button class="previous" :class="{'previous-disabled': disableButton}" v-if="next" @click="previousPage">previous</button>
-  <button class="next" v-if="next" @click="nextPage">Next</button>
+  <div class="page-actions">
+    <span @click="previousPage()" class="page-button" :class="{ 'page-button-disabled': disableButton }">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M10.854 1.146a.5.5 0 0 1 0 .708L6.707 6H13.5a.5.5 0 0 1 0 1H6.707l4.147 4.146a.5.5 0 1 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z"/>
+      </svg>
+    </span>
+    <span>página {{ prev + 1 || "..." }}</span>
+    <span @click="nextPage()" class="page-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M5.146 1.146a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 7.5H2.5a.5.5 0 0 1 0-1h6.793L5.146 1.146z"/>
+      </svg>
+    </span>
+  </div>
 </template>
 <style scoped>
   .page-header {
@@ -118,60 +129,39 @@ import Character from '../components/CharacterCard.vue'
     height: 100%;
   }
 
-  .next {
-    width: 100px;
-    min-width: 100px;
-    max-width: 100px;
-    height: 50px;
-    border: none;
-    border-radius: 10px;
-    background-color: #3498DB;
-    color: #F7DC6F;
-    font-size: 16px;
-    font-weight: bold;
-    outline: none;
-    cursor: pointer;
+  .page-actions {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
     margin-top: 30px;
-    margin-right: 20px;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .previous {
-    width: 100px;
-    min-width: 100px;
-    max-width: 100px;
-    height: 50px;
-    border: none;
-    border-radius: 10px;
-    background-color: #3498DB;
-    color: #F7DC6F;
-    font-size: 16px;
-    font-weight: bold;
-    outline: none;
-    cursor: pointer;
-    margin-top: 30px;
-    margin-right: 20px;
-    transition: all 0.3s ease-in-out;
   }
 
-  .next:hover {
-    background-color: #58D68D;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .previous:hover {
-    background-color: #58D68D;
-    transition: all 0.3s ease-in-out;
+  .page-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
-  .previous-disabled {
-    background-color: #ccc;
+  .page-button svg {
+    width: 30px;
+    height: 30px;
+    fill: #999;
+  }
+
+  .page-button svg:hover {
+    cursor: pointer;
+    fill: #3498DB
+  }
+
+  .page-button-disabled {
     color: #999;
     cursor: not-allowed;
   }
 
-  .previous-disabled:hover {
-    background-color: #ccc;
+  .page-button-disabled svg:hover {
+    cursor: not-allowed;
+    fill: #999;
   }
 
 </style>
