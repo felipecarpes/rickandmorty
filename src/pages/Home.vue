@@ -70,11 +70,11 @@ import Pagination from '../components/Pagination.vue'
     <h1>Error</h1>
   </div>
   <template v-else>
-    <Pagination :prev="prev + 1" :next="next" :pages="pages" :disableButton="disableButton" @next-page="nextPage" @previous-page="previousPage"/>
+    <Pagination :prev="prev + 1" :next="next" :pages="pages" @next-page="nextPage" @previous-page="previousPage"/>
     <div class="home">
       <Character v-for="character in characters" :character="character" :key="character"/>
     </div>
-    <Pagination :prev="prev + 1" :next="next" :pages="pages" :disableButton="disableButton" @next-page="nextPage" @previous-page="previousPage"/>
+    <Pagination :prev="prev + 1" :next="next" :pages="pages" @next-page="nextPage" @previous-page="previousPage"/>
   </template>
 </template>
 <style scoped>
