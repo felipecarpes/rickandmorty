@@ -29,14 +29,15 @@ const props = defineProps<{
     box-sizing: border-box;
     color: #000;
     background-color: #3498DB;
+    transition: all 0.3s ease-in-out;
   }
 
   .card:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    transform: scale(1.05);
-    transition: all 0.4s ease-in-out;
+    transform: scale(1.01);
+    transition: all 0.3s ease-in-out;
     cursor: pointer;
-    background-color: #6C3483;
+    background-color: #58D68D;
     color: #fff;
   }
 
