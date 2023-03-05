@@ -6,6 +6,8 @@
 
 > Project status: :heavy_check_mark: (Done)
 
+### Access the deployed project <a href="https://rickandmorty-murex.vercel.app/" target="_blank" rel="noopener">Here</a>
+
 ## How to run application :arrow_forward:
 
 On your terminal, clone it project
