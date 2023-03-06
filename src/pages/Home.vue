@@ -57,6 +57,10 @@ import Pagination from '../components/Pagination.vue'
     })
   }
 
+  const hasNotFoundCharacters = computed(() => {
+    return characters.value?.length === 0
+  })
+
 </script>
 <template>
   <div class="page-header">
@@ -70,11 +74,14 @@ import Pagination from '../components/Pagination.vue'
     <h1>Error</h1>
   </div>
   <template v-else>
-    <Pagination :prev="prev + 1" :next="next" :pages="pages" @next-page="nextPage" @previous-page="previousPage"/>
-    <div class="home">
-      <Character v-for="character in characters" :character="character" :key="character"/>
-    </div>
-    <Pagination :prev="prev + 1" :next="next" :pages="pages" @next-page="nextPage" @previous-page="previousPage"/>
+    <span v-if="hasNotFoundCharacters"> No characters named "{{ search.value }}" were found 😔 </span>
+    <template v-else>
+      <Pagination :prev="prev + 1" :next="next" :pages="pages" @next-page="nextPage" @previous-page="previousPage"/>
+      <div class="home">
+        <Character v-for="character in characters" :character="character" :key="character"/>
+      </div>
+      <Pagination :prev="prev + 1" :next="next" :pages="pages" @next-page="nextPage" @previous-page="previousPage"/>
+    </template>
   </template>
 </template>
 <style scoped>
