@@ -68,7 +68,7 @@ import Pagination from '../components/Pagination.vue'
     <input placeholder="Search character" v-model="search.value"/>
   </div>
   <div v-if="loadingCharacters" class="loading">
-    <img src="/rickandmortyportal.png" class="loader" />
+    <img src="/rickandmortyportalload.png" class="loader" />
   </div>
   <div v-else-if="errorCharacters" class="error">
     <h1>Error</h1>
@@ -121,23 +121,27 @@ import Pagination from '../components/Pagination.vue'
     height: 100%;
   }
 
-  @keyframes spin {
+  @keyframes pulse {
     0% {
-      transform: rotate(0deg);
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
     }
     100% {
-      transform: rotate(360deg);
+      transform: scale(1);
     }
   }
 
   .loader {
     margin: 0 auto;
+    margin-top: 50px;
     display: block;
     width: 300px;
     box-shadow: 0 0 12px 3px #93f373;
     border-radius: 50%;
     transform: scale(1);
-    animation: spin 1s linear infinite;
+    animation: pulse 1s linear infinite;
   }
 
   .error {

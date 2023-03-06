@@ -19,7 +19,7 @@
 </script>
 <template>
   <BackButton />
-  <img v-if="loadingCharacter" src="/rickandmortyportal.png" class="loader" />
+  <img v-if="loadingCharacter" src="/rickandmortyportalload.png" class="loader" />
   <div class="character-page" v-else>
     <BackButton />
     <div class="page-header">
@@ -151,23 +151,27 @@
     transition: all 0.2s ease-in-out;
   }
 
-  @keyframes spin {
+  @keyframes pulse {
     0% {
-      transform: rotate(0deg);
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
     }
     100% {
-      transform: rotate(360deg);
+      transform: scale(1);
     }
   }
 
   .loader {
     margin: 0 auto;
+    margin-top: 50px;
     display: block;
     width: 300px;
     box-shadow: 0 0 12px 3px #93f373;
     border-radius: 50%;
     transform: scale(1);
-    animation: spin 1s linear infinite;
+    animation: pulse 1s linear infinite;
   }
 
   @media (max-width: 768px) {
