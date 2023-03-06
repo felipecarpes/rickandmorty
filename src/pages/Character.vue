@@ -19,7 +19,7 @@
 </script>
 <template>
   <BackButton />
-  <h1 v-if="loadingCharacter">Loading...</h1>
+  <img v-if="loadingCharacter" src="/rickandmortyportal.png" class="loader" />
   <div class="character-page" v-else>
     <BackButton />
     <div class="page-header">
@@ -119,12 +119,14 @@
 
   .episodes-list li {
     margin-bottom: 1rem;
-    color: #58D68D;
+    color: #93f373;
+    transition: all 0.2s ease-in-out;
   }
 
   .episodes-list li:hover {
-    color: #3498DB;
-    cursor: pointer;
+    color: #166678;
+    transform: scale(1.1);
+    transition: all 0.2s ease-in-out;
   }
 
   img {
@@ -138,11 +140,34 @@
   }
 
   span {
-    cursor: pointer;
-  }
+    color: #93f373;
+    transition: all 0.2s ease-in-out;
+  } 
 
   span:hover {
-    color: #3498DB;
+    cursor: pointer;
+    color: #166678;
+    transform: scale(1.010);
+    transition: all 0.2s ease-in-out;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loader {
+    margin: 0 auto;
+    display: block;
+    width: 300px;
+    box-shadow: 0 0 12px 3px #93f373;
+    border-radius: 50%;
+    transform: scale(1);
+    animation: spin 1s linear infinite;
   }
 
   @media (max-width: 768px) {
@@ -191,7 +216,7 @@
     }
     
     .episodes-list li:hover {
-      color: #3498DB;
+      color: #166678;
     }
 
     .character-info {

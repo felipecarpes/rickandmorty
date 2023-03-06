@@ -18,6 +18,16 @@ const routerToHomePage = () => {
   </span>
 </template>
 <style scoped>
+
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    line-height: 1;
+    padding-bottom: 1rem;
+    transition: all 0.3s ease-in-out;
+  }
   .back-button {
     display: flex;
     justify-content: flex-start;

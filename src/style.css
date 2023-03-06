@@ -15,7 +15,7 @@
 
 a {
   font-weight: 500;
-  color: #3498DB; /* azul elétrico */
+  color: #166678;
   text-decoration: inherit;
 }
 a:hover {
@@ -85,7 +85,7 @@ input {
 }
 
 ::-webkit-scrollbar-track {
-  background: #58D68D;
+  background: #93f373;
   border-radius: 10px;
 }
 

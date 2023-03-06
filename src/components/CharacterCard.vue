@@ -40,7 +40,7 @@ const routerToCharacterPage = () => {
     padding: 20px;
     box-sizing: border-box;
     color: #000;
-    background-color: #3498DB;
+    background-color: #166678;
     transition: all 0.3s ease-in-out;
   }
 
@@ -49,7 +49,7 @@ const routerToCharacterPage = () => {
     transform: scale(1.01);
     transition: all 0.3s ease-in-out;
     cursor: pointer;
-    background-color: #58D68D;
+    background-color: #93f373;
     color: #fff;
   }
 
