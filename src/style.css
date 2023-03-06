@@ -97,3 +97,9 @@ input {
 ::-webkit-scrollbar-thumb:hover {
   background: #F7DC6F;
 }
+
+@media (max-width: 768px) {
+  #app {
+    padding: 1rem;
+  }
+}

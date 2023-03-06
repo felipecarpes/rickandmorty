@@ -194,11 +194,6 @@
       color: #3498DB;
     }
 
-    img {
-      max-width: 100%;
-      max-height: 100%;
-    }
-
     .character-info {
       margin-top: 1rem;
     }
