@@ -18,7 +18,7 @@
 - Vue Apollo
 - Vue Apollo Composable
 
-### How to run application :arrow_forward:
+## How to run application :arrow_forward:
 
 On your terminal, clone it project
 
@@ -52,7 +52,7 @@ yarn dev
 
 Now just acess the project in browser through the URL reported in the terminal 😊
 
-### API used to consume content:
+## API used to consume content:
 
 <a href="https://rickandmortyapi.com/" target="_blank" rel="noopener">Ricky and Morty API</a>
 
