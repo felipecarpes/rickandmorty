@@ -11,12 +11,12 @@
 
 ### This project was created using the following technologies:
 
--- Vue 3 (composition API)
--- Apollo Client GraphQL
--- GraphQL
--- TypeScript
--- Vue Apollo
--- Vue Apollo Composable
+- Vue 3 (composition API)
+- Apollo Client GraphQL
+- GraphQL
+- TypeScript
+- Vue Apollo
+- Vue Apollo Composable
 
 ### How to run application :arrow_forward:
 
