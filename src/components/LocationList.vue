@@ -14,18 +14,28 @@
 </template>
 
 <script setup lang="ts">
+interface Character {
+  id: string
+  name: string
+  status?: string
+  species: string
+  image: string
+}
+
+interface Location {
+  id: string
+  name: string
+  type: string
+  dimension: string
+  residents: Readonly<Character[]>
+}
+
 defineProps<{
-  locations: Array<{
-    id: string
-    name: string
-    type: string
-    dimension: string
-    residents: any[]
-  }>
+  locations: Location[]
 }>()
 
 defineEmits<{
-  (e: 'show-details', location: any): void
+  (e: 'show-details', location: Location): void
 }>()
 </script>
 

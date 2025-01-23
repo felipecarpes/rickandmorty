@@ -14,18 +14,28 @@
 </template>
 
 <script setup lang="ts">
+interface Character {
+  id: string
+  name: string
+  status?: string
+  species: string
+  image: string
+}
+
+interface Episode {
+  id: string
+  name: string
+  air_date: string
+  episode: string
+  characters: Readonly<Character[]>
+}
+
 defineProps<{
-  episodes: Array<{
-    id: string
-    name: string
-    episode: string
-    air_date: string
-    characters: any[]
-  }>
+  episodes: Episode[]
 }>()
 
 defineEmits<{
-  (e: 'show-details', episode: any): void
+  (e: 'show-details', episode: Episode): void
 }>()
 </script>
 
