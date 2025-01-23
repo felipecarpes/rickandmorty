@@ -1,9 +1,6 @@
-import { ApolloClient } from 'apollo-client'
-import { HttpLink } from 'apollo-link-http'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import VueApollo from 'vue-apollo'
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client/core'
 
-const httpLink = new HttpLink({
+const httpLink = createHttpLink({
   uri: 'https://rickandmortyapi.com/graphql',
 })
 
