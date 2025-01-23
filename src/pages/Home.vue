@@ -199,196 +199,116 @@ import CharacterList from '../components/CharacterList.vue'
 import LocationList from '../components/LocationList.vue'
 import EpisodeList from '../components/EpisodeList.vue'
 import Loader from '../components/Loader.vue'
-import Pagination from '../components/Pagination.vue'
+import { GET_CHARACTERS, GET_LOCATIONS, GET_EPISODES } from '../graphql/queries'
 
-// State
-const activeTab = ref('characters')
-const searchQuery = ref('')
-const locationSearch = ref('')
-const episodeSearch = ref('')
-const loading = ref(false)
-const selectedLocation = ref(null)
-const selectedEpisode = ref(null)
+interface Character {
+  id: string
+  name: string
+  status?: string
+  species: string
+  image: string
+}
+
+interface Location {
+  id: string
+  name: string
+  type: string
+  dimension: string
+  residents: Character[]
+}
+
+interface Episode {
+  id: string
+  name: string
+  air_date: string
+  episode: string
+  characters: Character[]
+}
+
+interface QueryResult<T> {
+  info: {
+    count: number
+    pages: number
+  }
+  results: T[]
+}
+
+// Reactive references with proper types
+const activeTab = ref<string>('characters')
+const searchQuery = ref<string>('')
+const locationSearch = ref<string>('')
+const episodeSearch = ref<string>('')
+const currentPage = ref<number>(1)
+const locationPage = ref<number>(1)
+const episodePage = ref<number>(1)
+const selectedLocation = ref<Location | null>(null)
+const selectedEpisode = ref<Episode | null>(null)
+const loading = ref<boolean>(false)
+
+// Characters Query
+const { result: charactersResult } = useQuery<{ characters: QueryResult<Character> }>(GET_CHARACTERS, {
+  page: currentPage,
+  filter: computed(() => ({ name: searchQuery.value }))
+})
+
+const characters = useResult(charactersResult, [] as Character[], data => data.characters.results)
+const totalPages = computed(() => charactersResult.value?.characters.info.pages || 0)
+const charactersCount = computed(() => charactersResult.value?.characters.info.count || 0)
+
+// Locations Query
+const { result: locationsResult } = useQuery<{ locations: QueryResult<Location> }>(GET_LOCATIONS, {
+  page: locationPage,
+  filter: computed(() => ({ name: locationSearch.value }))
+})
+
+const locations = useResult(locationsResult, [] as Location[], data => data.locations.results)
+const locationTotalPages = computed(() => locationsResult.value?.locations.info.pages || 0)
+const locationsCount = computed(() => locationsResult.value?.locations.info.count || 0)
+
+// Episodes Query
+const { result: episodesResult } = useQuery<{ episodes: QueryResult<Episode> }>(GET_EPISODES, {
+  page: episodePage,
+  filter: computed(() => ({ name: episodeSearch.value }))
+})
+
+const episodes = useResult(episodesResult, [] as Episode[], data => data.episodes.results)
+const episodeTotalPages = computed(() => episodesResult.value?.episodes.info.pages || 0)
+const episodesCount = computed(() => episodesResult.value?.episodes.info.count || 0)
+
+// Computed properties for modal data
 const locationResidents = computed(() => selectedLocation.value?.residents || [])
 const episodeCharacters = computed(() => selectedEpisode.value?.characters || [])
-
-// Pagination state
-const currentPage = ref(1)
-const totalPages = ref(1)
-const locationPage = ref(1)
-const locationTotalPages = ref(1)
-const episodePage = ref(1)
-const episodeTotalPages = ref(1)
-
-// Counters for tabs
-const charactersCount = ref(0)
-const locationsCount = ref(0)
-const episodesCount = ref(0)
-
-// GraphQL Queries
-const CHARACTERS_QUERY = gql`
-  query GetCharacters($page: Int!, $filter: FilterCharacter) {
-    characters(page: $page, filter: $filter) {
-      info {
-        count
-        pages
-      }
-      results {
-        id
-        name
-        status
-        species
-        type
-        gender
-        image
-        location {
-          id
-          name
-        }
-        origin {
-          id
-          name
-        }
-      }
-    }
-  }
-`
-
-const LOCATIONS_QUERY = gql`
-  query GetLocations($page: Int!, $filter: FilterLocation) {
-    locations(page: $page, filter: $filter) {
-      info {
-        count
-        pages
-      }
-      results {
-        id
-        name
-        type
-        dimension
-        residents {
-          id
-          name
-          image
-        }
-      }
-    }
-  }
-`
-
-const EPISODES_QUERY = gql`
-  query GetEpisodes($page: Int!, $filter: FilterEpisode) {
-    episodes(page: $page, filter: $filter) {
-      info {
-        count
-        pages
-      }
-      results {
-        id
-        name
-        air_date
-        episode
-        characters {
-          id
-          name
-          image
-        }
-      }
-    }
-  }
-`
-
-// Query Results with variables
-const { result: charactersResult, refetch: refetchCharacters } = useQuery(CHARACTERS_QUERY, () => ({
-  page: currentPage.value,
-  filter: searchQuery.value ? { name: searchQuery.value } : {}
-}))
-
-const { result: locationsResult, refetch: refetchLocations } = useQuery(LOCATIONS_QUERY, () => ({
-  page: locationPage.value,
-  filter: locationSearch.value ? { name: locationSearch.value } : {}
-}))
-
-const { result: episodesResult, refetch: refetchEpisodes } = useQuery(EPISODES_QUERY, () => ({
-  page: episodePage.value,
-  filter: episodeSearch.value ? { name: episodeSearch.value } : {}
-}))
-
-const characters = useResult(charactersResult, [], data => {
-  charactersCount.value = data.characters.info.count
-  return data.characters.results
-})
-
-const locations = useResult(locationsResult, [], data => {
-  locationsCount.value = data.locations.info.count
-  return data.locations.results
-})
-
-const episodes = useResult(episodesResult, [], data => {
-  episodesCount.value = data.episodes.info.count
-  return data.episodes.results
-})
-
-watch(charactersResult, (data) => {
-  if (data?.characters) {
-    characters.value = data.characters.results
-    charactersCount.value = data.characters.info.count
-    totalPages.value = data.characters.info.pages
-  }
-})
-
-watch(locationsResult, (data) => {
-  if (data?.locations) {
-    locations.value = data.locations.results
-    locationsCount.value = data.locations.info.count
-    locationTotalPages.value = data.locations.info.pages
-  }
-})
-
-watch(episodesResult, (data) => {
-  if (data?.episodes) {
-    episodes.value = data.episodes.results
-    episodesCount.value = data.episodes.info.count
-    episodeTotalPages.value = data.episodes.info.pages
-  }
-})
 
 // Event Handlers
 const handleTabChange = (tab: string) => {
   activeTab.value = tab
 }
 
-const handlePageChange = async (page: number) => {
+const handlePageChange = (page: number) => {
   currentPage.value = page
-  await refetchCharacters()
 }
 
-const handleLocationPageChange = async (page: number) => {
+const handleLocationPageChange = (page: number) => {
   locationPage.value = page
-  await refetchLocations()
 }
 
-const handleEpisodePageChange = async (page: number) => {
+const handleEpisodePageChange = (page: number) => {
   episodePage.value = page
-  await refetchEpisodes()
 }
 
-const handleSearch = async () => {
+const handleSearch = () => {
   currentPage.value = 1
-  await refetchCharacters()
 }
 
-const handleLocationSearch = async () => {
+const handleLocationSearch = () => {
   locationPage.value = 1
-  await refetchLocations()
 }
 
-const handleEpisodeSearch = async () => {
+const handleEpisodeSearch = () => {
   episodePage.value = 1
-  await refetchEpisodes()
 }
 
-const openLocationModal = (location) => {
+const openLocationModal = (location: Location) => {
   selectedLocation.value = location
 }
 
@@ -396,7 +316,7 @@ const closeLocationModal = () => {
   selectedLocation.value = null
 }
 
-const openEpisodeModal = (episode) => {
+const openEpisodeModal = (episode: Episode) => {
   selectedEpisode.value = episode
 }
 
