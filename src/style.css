@@ -1,10 +1,15 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: 'Poppins', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
   font-weight: 400;
 
   color-scheme: dark;
-  background-color: #3B3B3B;
+  background-color: #1a1a1a;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(97, 227, 145, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(72, 228, 238, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(238, 72, 238, 0.1) 0%, transparent 40%);
+  background-attachment: fixed;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,64 +18,126 @@
   -webkit-text-size-adjust: 100%;
 }
 
+@keyframes portalPulse {
+  0% { box-shadow: 0 0 15px #61E391, 0 0 30px #61E391, 0 0 45px #61E391; }
+  50% { box-shadow: 0 0 20px #48E4EE, 0 0 40px #48E4EE, 0 0 60px #48E4EE; }
+  100% { box-shadow: 0 0 15px #61E391, 0 0 30px #61E391, 0 0 45px #61E391; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
 a {
   font-weight: 500;
-  color: #166678;
-  text-decoration: inherit;
+  color: #61E391;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 5px rgba(97, 227, 145, 0.5);
 }
+
 a:hover {
-  color: #6C3483;
+  color: #48E4EE;
+  transform: translateY(-2px);
+  text-shadow: 0 0 10px rgba(72, 228, 238, 0.8);
 }
 
 body {
   margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  margin-bottom: 1rem;
+  color: #61E391;
+  text-shadow: 0 0 10px rgba(97, 227, 145, 0.5),
+               0 0 20px rgba(97, 227, 145, 0.3);
+  animation: float 3s ease-in-out infinite;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #F7DC6F;
+  color: #48E4EE;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(72, 228, 238, 0.5);
 }
 
 p, span {
-  color: #FFFFFF;
+  color: #e0e0e0;
+  line-height: 1.6;
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  border-radius: 12px;
+  border: 2px solid #61E391;
+  padding: 0.8em 1.6em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background: rgba(97, 227, 145, 0.1);
+  color: #61E391;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 5px rgba(97, 227, 145, 0.5);
+  position: relative;
+  overflow: hidden;
 }
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  background: rgba(97, 227, 145, 0.2);
+  border-radius: 50%;
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
 button:hover {
-  border-color: #646cff;
+  background: rgba(97, 227, 145, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(97, 227, 145, 0.5);
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+
+button:hover::before {
+  width: 300px;
+  height: 300px;
 }
 
 input {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  border-radius: 12px;
+  border: 2px solid #61E391;
+  padding: 0.8em 1.6em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
-  transition: border-color 0.25s;
+  background: rgba(26, 26, 26, 0.8);
+  color: #61E391;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(97, 227, 145, 0.2);
 }
 
-.card {
-  padding: 2em;
+input:focus {
+  border-color: #48E4EE;
+  outline: none;
+  box-shadow: 0 0 20px rgba(72, 228, 238, 0.3);
+}
+
+input::placeholder {
+  color: rgba(97, 227, 145, 0.6);
 }
 
 #app {
@@ -81,25 +148,136 @@ input {
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #93f373;
+  background: rgba(26, 26, 26, 0.8);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3498DB;
+  background: #61E391;
   border-radius: 10px;
+  transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #F7DC6F;
+  background: #48E4EE;
+  box-shadow: 0 0 10px rgba(72, 228, 238, 0.5);
+}
+
+/* Loader styles */
+.loader {
+  width: 180px;
+  height: 180px;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 0 20px rgba(97, 227, 145, 0.5));
+  animation: portalPulse 2s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+@keyframes portalPulse {
+  0%, 100% {
+    transform: scale(0.95) rotateY(0deg);
+    filter: 
+      drop-shadow(0 0 20px rgba(97, 227, 145, 0.5))
+      brightness(0.8)
+      hue-rotate(0deg);
+  }
+  50% {
+    transform: scale(1.05) rotateY(180deg);
+    filter: 
+      drop-shadow(0 0 30px rgba(72, 228, 238, 0.7))
+      brightness(1.2)
+      hue-rotate(180deg);
+  }
+}
+
+.loader::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  background: radial-gradient(circle at center,
+    rgba(97, 227, 145, 0.8) 0%,
+    rgba(72, 228, 238, 0.8) 45%,
+    transparent 65%
+  );
+  border-radius: 50%;
+  animation: portalGlow 2s ease-in-out infinite;
+  z-index: -1;
+}
+
+.loader::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: radial-gradient(circle at center,
+    rgba(72, 228, 238, 0.8) 0%,
+    rgba(97, 227, 145, 0.8) 45%,
+    transparent 65%
+  );
+  border-radius: 50%;
+  animation: portalGlow 2s ease-in-out infinite reverse;
+  z-index: -1;
+}
+
+@keyframes portalGlow {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.3;
+  }
+}
+
+@keyframes portalSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 768px) {
   #app {
     padding: 1rem;
   }
+  
+  h1 {
+    font-size: 2.5em;
+  }
+  
+  .card {
+    padding: 1.5em;
+  }
+}
+
+@media (max-width: 768px) {
+  .loader {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  position: relative;
 }
