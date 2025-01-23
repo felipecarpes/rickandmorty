@@ -214,7 +214,7 @@ interface Location {
   name: string
   type: string
   dimension: string
-  residents: Character[]
+  residents: Readonly<Character[]>
 }
 
 interface Episode {
@@ -222,7 +222,7 @@ interface Episode {
   name: string
   air_date: string
   episode: string
-  characters: Character[]
+  characters: Readonly<Character[]>
 }
 
 interface QueryResult<T> {
@@ -230,7 +230,7 @@ interface QueryResult<T> {
     count: number
     pages: number
   }
-  results: T[]
+  results: Readonly<T[]>
 }
 
 // Reactive references with proper types
@@ -251,7 +251,9 @@ const { result: charactersResult } = useQuery<{ characters: QueryResult<Characte
   filter: computed(() => ({ name: searchQuery.value }))
 })
 
-const characters = useResult(charactersResult, [] as Character[], data => data.characters.results)
+const characters = computed<Character[]>(() => 
+  charactersResult.value?.characters.results ? [...charactersResult.value.characters.results] : []
+)
 const totalPages = computed(() => charactersResult.value?.characters.info.pages || 0)
 const charactersCount = computed(() => charactersResult.value?.characters.info.count || 0)
 
@@ -261,7 +263,9 @@ const { result: locationsResult } = useQuery<{ locations: QueryResult<Location> 
   filter: computed(() => ({ name: locationSearch.value }))
 })
 
-const locations = useResult(locationsResult, [] as Location[], data => data.locations.results)
+const locations = computed<Location[]>(() => 
+  locationsResult.value?.locations.results ? [...locationsResult.value.locations.results] : []
+)
 const locationTotalPages = computed(() => locationsResult.value?.locations.info.pages || 0)
 const locationsCount = computed(() => locationsResult.value?.locations.info.count || 0)
 
@@ -271,13 +275,15 @@ const { result: episodesResult } = useQuery<{ episodes: QueryResult<Episode> }>(
   filter: computed(() => ({ name: episodeSearch.value }))
 })
 
-const episodes = useResult(episodesResult, [] as Episode[], data => data.episodes.results)
+const episodes = computed<Episode[]>(() => 
+  episodesResult.value?.episodes.results ? [...episodesResult.value.episodes.results] : []
+)
 const episodeTotalPages = computed(() => episodesResult.value?.episodes.info.pages || 0)
 const episodesCount = computed(() => episodesResult.value?.episodes.info.count || 0)
 
 // Computed properties for modal data
-const locationResidents = computed(() => selectedLocation.value?.residents || [])
-const episodeCharacters = computed(() => selectedEpisode.value?.characters || [])
+const locationResidents = computed(() => selectedLocation.value?.residents ? [...selectedLocation.value.residents] : [])
+const episodeCharacters = computed(() => selectedEpisode.value?.characters ? [...selectedEpisode.value.characters] : [])
 
 // Event Handlers
 const handleTabChange = (tab: string) => {
