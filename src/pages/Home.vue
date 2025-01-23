@@ -336,65 +336,75 @@ onMounted(() => {
 </script>
 
 <style scoped>
+* {
+  box-sizing: border-box;
+}
+
 .home {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
   min-height: 100vh;
+  background: var(--background-color);
   width: 100%;
+  overflow-x: hidden;
 }
 
 .hero {
+  background: var(--surface-color);
+  padding: 1.5rem 1rem;
   text-align: center;
-  padding: 3rem 1rem;
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/hero-bg.jpg');
-  background-size: cover;
-  background-position: center;
-  margin-bottom: 2rem;
-  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  width: 100%;
 }
 
-.hero h1 {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  margin-bottom: 1rem;
-  line-height: 1.2;
-}
-
-.hero p {
-  font-size: clamp(1rem, 3vw, 1.25rem);
-  max-width: 600px;
+.hero-content {
+  max-width: 800px;
   margin: 0 auto;
-  line-height: 1.5;
   padding: 0 1rem;
 }
 
+.hero h1 {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  margin-bottom: 0.75rem;
+}
+
+.hero p {
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  color: var(--text-secondary);
+}
+
 .main-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
   display: grid;
   grid-template-columns: 300px 1fr;
   gap: 2rem;
-  padding: 1rem;
   width: 100%;
-  box-sizing: border-box;
 }
 
 .tech-stack {
   background: var(--surface-color);
   padding: 1.5rem;
-  border-radius: 8px;
+  border-radius: 12px;
+  position: sticky;
+  top: 1rem;
   height: fit-content;
   width: 100%;
-  box-sizing: border-box;
+}
+
+.tech-stack h2 {
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
+  margin-bottom: 1rem;
 }
 
 .tech-icons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
-  margin: 1rem 0;
+  justify-content: center;
+  width: 100%;
 }
 
 .tech-item {
-  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -409,6 +419,7 @@ onMounted(() => {
 
 .about {
   margin-top: 2rem;
+  width: 100%;
 }
 
 .about h2 {
@@ -425,6 +436,7 @@ onMounted(() => {
 .github-link {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .github-link a {
@@ -448,6 +460,7 @@ onMounted(() => {
 
 .character-explorer {
   width: 100%;
+  min-width: 0; /* Prevent grid item from expanding */
 }
 
 .content-section {
@@ -468,7 +481,6 @@ onMounted(() => {
   background: var(--surface-color);
   color: var(--text-color);
   font-size: 1rem;
-  box-sizing: border-box;
 }
 
 .residents-grid,
@@ -487,6 +499,11 @@ onMounted(() => {
   overflow: hidden;
   transition: transform 0.2s;
   width: 100%;
+}
+
+.resident-card:hover,
+.character-card:hover {
+  transform: translateY(-4px);
 }
 
 .resident-image-container,
@@ -511,7 +528,7 @@ onMounted(() => {
   display: block;
   padding: 0.75rem;
   text-align: center;
-  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+  font-size: 0.9rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -529,8 +546,8 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  box-sizing: border-box;
   z-index: 1000;
+  box-sizing: border-box;
 }
 
 .modal-content {
@@ -555,6 +572,7 @@ onMounted(() => {
 .modal-header h2 {
   font-size: clamp(1.2rem, 4vw, 1.5rem);
   margin-bottom: 0.5rem;
+  padding-right: 2rem;
 }
 
 .location-meta,
@@ -568,10 +586,10 @@ onMounted(() => {
 .type-badge,
 .episode-code,
 .air-date {
-  background: var(--surface-color);
+  background: var(--background-color);
   padding: 0.5rem 1rem;
   border-radius: 20px;
-  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+  font-size: 0.9rem;
 }
 
 .modal-body {
@@ -588,26 +606,28 @@ onMounted(() => {
   font-size: 1.5rem;
   cursor: pointer;
   padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   z-index: 2;
 }
 
 @media (max-width: 1024px) {
   .main-content {
     grid-template-columns: 250px 1fr;
+    gap: 1.5rem;
   }
 }
 
 @media (max-width: 768px) {
   .main-content {
     grid-template-columns: 1fr;
-    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
   }
 
   .tech-stack {
+    position: relative;
+    top: 0;
     order: 2;
+    margin-top: 2rem;
   }
 
   .character-explorer {
@@ -616,90 +636,52 @@ onMounted(() => {
 
   .residents-grid,
   .characters-grid {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .home {
+    padding: 0;
+  }
+
+  .hero {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .main-content {
+    padding: 0 0.5rem;
+  }
+
+  .tech-stack {
+    padding: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .modal {
+    padding: 0.5rem;
   }
 
   .modal-content {
-    width: 95%;
-    margin: 1rem;
+    max-height: 95vh;
   }
 
   .modal-header,
   .modal-body {
     padding: 1rem;
   }
-}
-
-@media (max-width: 480px) {
-  .home {
-    padding: 0 0.5rem;
-  }
-
-  .hero {
-    padding: 2rem 0.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .main-content {
-    gap: 1rem;
-    padding: 0;
-  }
-
-  .tech-stack {
-    padding: 1rem;
-  }
 
   .residents-grid,
   .characters-grid {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.75rem;
   }
 
-  .tech-icons {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
-  }
-
-  .modal {
-    padding: 0;
-  }
-
-  .modal-content {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    border-radius: 0;
-  }
-
-  .modal-header {
-    padding: 1rem 0.5rem;
-  }
-
-  .modal-body {
+  .resident-name,
+  .character-name {
     padding: 0.5rem;
-  }
-
-  .location-meta,
-  .episode-meta {
-    gap: 0.25rem;
-  }
-
-  .dimension-badge,
-  .type-badge,
-  .episode-code,
-  .air-date {
-    padding: 0.25rem 0.75rem;
-  }
-}
-
-@media (max-width: 360px) {
-  .residents-grid,
-  .characters-grid {
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-  }
-
-  .tech-icons {
-    grid-template-columns: repeat(2, 1fr);
+    font-size: 0.8rem;
   }
 }
 </style>
